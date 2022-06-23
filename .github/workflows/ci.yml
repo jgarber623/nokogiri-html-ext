@@ -15,3 +15,19 @@ jobs:
         with:
           languages: ruby
       - uses: github/codeql-action/analyze@v2
+  lint:
+    name: Lint
+    permissions:
+      contents: read
+      security-events: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - run: bundle exec rubocop --require code_scanning --format progress --format CodeScanning::SarifFormatter --out rubocop.sarif
+      - uses: github/codeql-action/upload-sarif@v2
+        if: ${{ always() }}
+        with:
+          sarif_file: rubocop.sarif
