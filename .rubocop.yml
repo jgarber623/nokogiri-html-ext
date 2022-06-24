@@ -5,3 +5,8 @@ inherit_from:
 # aligned according to configuration.
 Layout/HashAlignment:
   EnforcedHashRocketStyle: table
+
+# Makes sure that Ruby source files have snake_case names.
+Naming/FileName:
+  Exclude:
+    - lib/nokogiri/html-ext.rb
