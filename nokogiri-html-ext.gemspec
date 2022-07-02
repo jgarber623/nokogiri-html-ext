@@ -3,7 +3,7 @@
 require_relative 'lib/nokogiri/html_ext/version'
 
 Gem::Specification.new do |spec|
-  spec.required_ruby_version = '>= 2.7', '< 4'
+  spec.required_ruby_version = '>= 2.7'
 
   spec.name          = 'nokogiri-html-ext'
   spec.version       = Nokogiri::HTMLExt::VERSION
@@ -27,5 +27,5 @@ Gem::Specification.new do |spec|
     'rubygems_mfa_required' => 'true'
   }
 
-  spec.add_runtime_dependency 'nokogiri', '~> 1.13'
+  spec.add_runtime_dependency 'nokogiri', '>= 1.13'
 end
