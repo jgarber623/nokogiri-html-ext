@@ -63,6 +63,21 @@ module Nokogiri
         end
       end
 
+      # Convert a relative URL to an absolute URL.
+      #
+      # @param url [String, #to_s]
+      #
+      # @return [String]
+      def resolve_relative_url(url)
+        url_str = url.to_s
+
+        uri_parser.unescape(
+          uri_parser.join(*[document.url.strip, base_href, url_str].compact.map { |u| uri_parser.escape(u) })
+                    .normalize
+                    .to_s
+        )
+      end
+
       # Convert the document's relative URLs to absolute URLs.
       #
       # @return [self]
@@ -83,14 +98,6 @@ module Nokogiri
       # rubocop:enable Style/PerlBackrefs
 
       private
-
-      def resolve_relative_url(url)
-        uri_parser.unescape(
-          uri_parser.join(*[document.url.strip, base_href, url].compact.map { |u| uri_parser.escape(u) })
-                    .normalize
-                    .to_s
-        )
-      end
 
       def resolve_relative_urls_for(attributes_map)
         attributes_map.each do |attribute, names|
