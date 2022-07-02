@@ -43,6 +43,8 @@ gem install nokogiri-html-ext
 nokogiri-html-ext provides two helper methods for getting and setting a document's `<base>` element's `href` attribute. The first, `base_href`, retrieves the element's `href` attribute value if it exists.
 
 ```ruby
+require 'nokogiri/html-ext'
+
 doc = Nokogiri::HTML('<html><body>Hello, world!</body></html>')
 
 doc.base_href
@@ -62,6 +64,8 @@ doc.base_href
 The `base_href=` method allows you to manipulate the document's `<base>` element.
 
 ```ruby
+require 'nokogiri/html-ext'
+
 doc = Nokogiri::HTML('<html><body>Hello, world!</body></html>')
 
 doc.base_href = '/foo'
@@ -92,6 +96,8 @@ URL resolution uses Ruby's built-in URL parsing and normalizing capabilities. Ab
 An abbreviated example:
 
 ```ruby
+require 'nokogiri/html-ext'
+
 markup = <<-HTML
   <html>
   <body>
