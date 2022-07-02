@@ -130,6 +130,17 @@ doc.at_css('img').to_s
 #=> "<img src=\"https://jgarber.example/foo.png\" srcset=\"https://jgarber.example/foo/bar.png 720w\">"
 ```
 
+### `resolve_relative_url`
+
+You may also resolve an arbitrary `String` representing a relative URL against the document's URL (or `<base>` element's `href` attribute value):
+
+```ruby
+doc = Nokogiri::HTML('<html><base href="/foo/bar"></html>', 'https://jgarber.example')
+
+doc.resolve_relative_url('biz/baz')
+#=> "https://jgarber.example/foo/biz/baz"
+```
+
 ## Contributing
 
 Interested in helping improve nokogiri-html-ext? Awesome! Your help is greatly appreciated. See [CONTRIBUTING.md](https://github.com/jgarber623/nokogiri-html-ext/blob/main/CONTRIBUTING.md) for details.
