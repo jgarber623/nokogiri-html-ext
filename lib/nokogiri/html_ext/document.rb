@@ -25,7 +25,6 @@ module Nokogiri
         'data'       => %w[object],
         'formaction' => %w[button input],
         'href'       => %w[a area base link],
-        'manifest'   => %w[html],
         'ping'       => %w[a area],
         'poster'     => %w[video],
         'src'        => %w[audio embed iframe img input script source track video]
