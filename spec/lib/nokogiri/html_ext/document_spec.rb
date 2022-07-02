@@ -1,43 +1,93 @@
 # frozen_string_literal: true
 
 RSpec.describe 'Nokogiri::HTML4::Document' do
-  describe '#base_href' do
-    it 'returns nil when no base element found' do
-      doc = Nokogiri::HTML('<html><body>hello, world</body></html>')
+  subject(:doc) { Nokogiri::HTML(markup, url) }
 
-      expect(doc.base_href).to be_nil
+  let(:url) { 'https://jgarber.example' }
+
+  describe '#base_href' do
+    context 'when no base element' do
+      let(:markup) { '<html><body>hello, world</body></html>' }
+
+      its(:base_href) { is_expected.to be_nil }
     end
 
-    it 'returns the HREF attibrute value when base element found' do
-      doc = Nokogiri::HTML('<html><head><base href="https://example.com"></head></html>')
+    context 'when base element' do
+      let(:markup) { '<html><head><base href="https://base.example"></head></html>' }
 
-      expect(doc.base_href).to eq('https://example.com')
+      its(:base_href) { is_expected.to eq('https://base.example') }
     end
   end
 
   describe '#base_href=' do
-    it 'appends a base element when no base element found' do
-      doc = Nokogiri::HTML('<html><body>hello, world</body></html>')
+    context 'when no base element' do
+      let(:markup) { '<html><body>hello, world</body></html>' }
 
-      doc.base_href = 'https://example.com'
+      before do
+        doc.base_href = 'https://base.example'
+      end
 
-      expect(doc.to_s).to match(%r{<base href="https://example.com">})
+      its(:to_s) { is_expected.to match(%r{<base href="https://base.example">}) }
     end
 
-    it 'sets the HREF attribute on a base element with no existing HREF attribute' do
-      doc = Nokogiri::HTML('<html><head><base target="_top"></head><body>hello, world</body></html>')
+    context 'when base element with no HREF attribute' do
+      let(:markup) { '<html><head><base target="_top"></head><body>hello, world</body></html>' }
 
-      doc.base_href = 'https://example.com'
+      before do
+        doc.base_href = 'https://base.example'
+      end
 
-      expect(doc.to_s).to match(%r{<base target="_top" href="https://example.com">})
+      its(:to_s) { is_expected.to match(%r{<base target="_top" href="https://base.example">}) }
     end
 
-    it 'sets the HREF attribute on a base element with an existing HREF attribute' do
-      doc = Nokogiri::HTML('<html><head><base href="https://example.com"></head><body>hello, world</body></html>')
+    context 'when base element with HREF attribute' do
+      let(:markup) { '<html><head><base href="https://example.com"></head><body>hello, world</body></html>' }
 
-      doc.base_href = 'https://example.org'
+      before do
+        doc.base_href = 'https://superbase.example'
+      end
 
-      expect(doc.to_s).to match(%r{<base href="https://example.org">})
+      its(:to_s) { is_expected.to match(%r{<base href="https://superbase.example">}) }
     end
+  end
+
+  describe '#resolve_relative_urls!' do
+    let(:markup) do
+      <<~HTML
+        <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+        <html>
+        <head>
+          <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+          <base href="/foo/bar/biz">
+        </head>
+        <body>
+          <a href="/home">Home</a>
+          <img srcset="../foo.png 480w, ../bar.png 720w, /biz.jpg">
+        </body>
+        </html>
+      HTML
+    end
+
+    let(:markup_after) do
+      <<~HTML
+        <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+        <html>
+        <head>
+          <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+          <base href="https://jgarber.example/foo/bar/biz">
+        </head>
+        <body>
+          <a href="https://jgarber.example/home">Home</a>
+          <img srcset="https://jgarber.example/foo/foo.png 480w, https://jgarber.example/foo/bar.png 720w, https://jgarber.example/biz.jpg">
+        </body>
+        </html>
+      HTML
+    end
+
+    before do
+      doc.resolve_relative_urls!
+    end
+
+    its(:to_s) { is_expected.to eq(markup_after) }
   end
 end
