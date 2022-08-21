@@ -63,6 +63,8 @@ RSpec.describe 'Nokogiri::HTML4::Document' do
         <body>
           <a href="/home">Home</a>
           <img srcset="../foo.png 480w, ../bar.png 720w, /biz.jpg">
+          <a href="mailto:email%40jgarber%2eexample">Valid escaped electronic mail</a>
+          <a href="mailto:email_at_jgarber%2eexample">Invalid electronic mail</a>
         </body>
         </html>
       HTML
@@ -79,6 +81,8 @@ RSpec.describe 'Nokogiri::HTML4::Document' do
         <body>
           <a href="https://jgarber.example/home">Home</a>
           <img srcset="https://jgarber.example/foo/foo.png 480w, https://jgarber.example/foo/bar.png 720w, https://jgarber.example/biz.jpg">
+          <a href="mailto:email@jgarber.example">Valid escaped electronic mail</a>
+          <a href="mailto:email_at_jgarber.example">Invalid electronic mail</a>
         </body>
         </html>
       HTML
