@@ -69,13 +69,15 @@ module Nokogiri
       #
       # @return [String]
       def resolve_relative_url(url)
-        unescape(
-          uri_parser.join(*[document.url.strip, base_href, unescape(url)].compact.map { |u| escape(u) })
+        url_str = url.to_s
+
+        uri_parser.unescape(
+          uri_parser.join(*[document.url.strip, base_href, url_str].compact.map { |u| uri_parser.escape(u) })
                     .normalize
                     .to_s
         )
       rescue URI::InvalidComponentError, URI::InvalidURIError
-        unescape(url)
+        url
       end
 
       # Convert the document's relative URLs to absolute URLs.
@@ -99,10 +101,6 @@ module Nokogiri
 
       private
 
-      def escape(url)
-        uri_parser.escape(url.to_s)
-      end
-
       def resolve_relative_urls_for(attributes_map)
         attributes_map.each do |attribute, names|
           xpaths = names.map { |name| "//#{name}[@#{attribute}]" }
@@ -111,10 +109,6 @@ module Nokogiri
             node[attribute] = yield node[attribute]
           end
         end
-      end
-
-      def unescape(url)
-        uri_parser.unescape(url.to_s)
       end
 
       def uri_parser
