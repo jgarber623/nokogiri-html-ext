@@ -69,13 +69,9 @@ module Nokogiri
       #
       # @return [String]
       def resolve_relative_url(url)
-        url_str = url.to_s
-
-        uri_parser.unescape(
-          uri_parser.join(*[document.url.strip, base_href, url_str].compact.map { |u| uri_parser.escape(u) })
-                    .normalize
-                    .to_s
-        )
+        URI::DEFAULT_PARSER.join(*[document.url.strip, base_href, url.to_s].compact)
+                           .normalize
+                           .to_s
       rescue URI::InvalidComponentError, URI::InvalidURIError
         url
       end
@@ -109,10 +105,6 @@ module Nokogiri
             node[attribute] = yield node[attribute]
           end
         end
-      end
-
-      def uri_parser
-        @uri_parser ||= URI::DEFAULT_PARSER
       end
     end
   end
