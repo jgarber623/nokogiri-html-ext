@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.0 / 2023-01-19
+
+- Remove escaping/unescaping code in relative URL resolution (2de6c5b)
+- Remove code-scanning-rubocop and rspec-github gems (3b3e625)
+- Update development Ruby to v2.7.7 (bd328f5)
+
 ## v0.2.2 / 2022-08-20
 
 - Improve handling of escaped and invalid URLs (b0d6c75)
