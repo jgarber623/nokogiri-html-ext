@@ -27,5 +27,5 @@ Gem::Specification.new do |spec|
     'rubygems_mfa_required' => 'true'
   }
 
-  spec.add_runtime_dependency 'nokogiri', '>= 1.13'
+  spec.add_runtime_dependency 'nokogiri', '>= 1.14'
 end
