@@ -71,13 +71,16 @@ module Nokogiri
       def resolve_relative_url(url)
         url_str = url.to_s
 
+        # Escape each component before joining (Ruby's +URI.parse+ only likes ASCII)
+        # and subsequently unescaping.
         uri_parser.unescape(
-          uri_parser.join(*[document.url.strip, base_href, url_str].compact.map { |u| uri_parser.escape(u) })
-                    .normalize
-                    .to_s
+          uri_parser
+            .join(*[doc_url_str, base_href, url_str].compact.map { |u| uri_parser.escape(u) })
+            .normalize
+            .to_s
         )
       rescue URI::InvalidComponentError, URI::InvalidURIError
-        url
+        url_str
       end
 
       # Convert the document's relative URLs to absolute URLs.
@@ -100,6 +103,13 @@ module Nokogiri
       # rubocop:enable Style/PerlBackrefs
 
       private
+
+      # Nokogiri::HTML4::Document#url may be double-escaped if the parser detects
+      # non-ASCII characters. For example, +https://[skull emoji].example+ is
+      # returned as +"https%3A//%25E2%2598%25A0%25EF%25B8%258F.example+.
+      def doc_url_str
+        @doc_url_str ||= uri_parser.unescape(uri_parser.unescape(document.url)).strip
+      end
 
       def resolve_relative_urls_for(attributes_map)
         attributes_map.each do |attribute, names|
