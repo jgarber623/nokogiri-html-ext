@@ -5,7 +5,7 @@ require 'nokogiri'
 module Nokogiri
   module HTML4
     class Document < Nokogiri::XML::Document
-      # A map of HTML `srcset` attributes and their associated element names.
+      # A map of HTML +srcset+ attributes and their associated element names.
       #
       # @see https://html.spec.whatwg.org/#srcset-attributes
       # @see https://html.spec.whatwg.org/#attributes-3
@@ -32,18 +32,18 @@ module Nokogiri
 
       private_constant :URL_ATTRIBUTES_MAP
 
-      # Get the <base> element's HREF attribute value.
+      # Get the +<base>+ element's HREF attribute value.
       #
       # @return [String, nil]
       def base_href
         (base = at_xpath('//base[@href]')) && base['href'].strip
       end
 
-      # Set the <base> element's HREF attribute value.
+      # Set the +<base>+ element's HREF attribute value.
       #
-      # If a <base> element exists, its HREF attribute value is replaced with
-      # the given value. If no <base> element exists, this method will create
-      # one and append it to the document's <head> (creating that element if
+      # If a +<base>+ element exists, its HREF attribute value is replaced with
+      # the given value. If no +<base>+ element exists, this method will create
+      # one and append it to the document's +<head>+ (creating that element if
       # necessary).
       #
       # @param url [String, #to_s]
@@ -71,8 +71,8 @@ module Nokogiri
       def resolve_relative_url(url)
         url_str = url.to_s
 
-        # Escape each component before joining (Ruby's +URI.parse+ only likes ASCII)
-        # and subsequently unescaping.
+        # Escape each component before joining (Ruby's +URI.parse+ only likes
+        # ASCII) and subsequently unescaping.
         uri_parser.unescape(
           uri_parser
             .join(*[doc_url_str, base_href, url_str].compact.map { |u| uri_parser.escape(u) })
@@ -104,9 +104,9 @@ module Nokogiri
 
       private
 
-      # Nokogiri::HTML4::Document#url may be double-escaped if the parser detects
-      # non-ASCII characters. For example, +https://[skull emoji].example+ is
-      # returned as +"https%3A//%25E2%2598%25A0%25EF%25B8%258F.example+.
+      # +Nokogiri::HTML4::Document#url+ may be double-escaped if the parser
+      # detects non-ASCII characters. For example, +https://[skull emoji].example+
+      # is returned as +"https%3A//%25E2%2598%25A0%25EF%25B8%258F.example+.
       def doc_url_str
         @doc_url_str ||= uri_parser.unescape(uri_parser.unescape(document.url)).strip
       end
