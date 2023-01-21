@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.0 / unreleased
+
+- Improve (hopefully) handling of non-ASCII input (6d1fc4d)
+- Update Nokogiri version constraint to >= 1.14 (4b7ed74)
+
 ## 0.3.1 / 2023-01-19
 
 - Revert removal of escaping/unescaping code in relative URL resolution (a78e83a)
