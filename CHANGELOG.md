@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.4.0 / unreleased
+## 0.4.0 / 2023-01-20
 
 - Improve (hopefully) handling of non-ASCII input (6d1fc4d)
 - Update Nokogiri version constraint to >= 1.14 (4b7ed74)
