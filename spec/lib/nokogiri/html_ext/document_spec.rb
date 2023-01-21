@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe 'Nokogiri::HTML4::Document' do
-  subject(:doc) { Nokogiri::HTML(markup, url) }
+  subject(:doc) { Nokogiri::HTML5::Document.parse(markup, url) }
 
   let(:url) { 'https://jgarber.example' }
 
@@ -51,17 +51,46 @@ RSpec.describe 'Nokogiri::HTML4::Document' do
     end
   end
 
+  describe '#resolve_relative_url' do
+    let(:markup) { '<html><base href="/✨"></html>' }
+
+    context 'when url is invalid' do
+      it 'returns url' do
+        expect(doc.resolve_relative_url('https:')).to eq('https:')
+      end
+    end
+
+    context 'when url is absolute' do
+      it 'returns url' do
+        expect(doc.resolve_relative_url('https://aaronpk.example/home')).to eq('https://aaronpk.example/home')
+      end
+    end
+
+    context 'when url is relative' do
+      it 'resolves url' do
+        expect(doc.resolve_relative_url('../../../home')).to eq('https://jgarber.example/home')
+      end
+    end
+
+    context 'when path includes non-ASCII characters' do
+      it 'resolves url' do
+        expect(doc.resolve_relative_url('/👋🏻')).to eq('https://jgarber.example/👋🏻')
+      end
+    end
+  end
+
   describe '#resolve_relative_urls!' do
     let(:markup) do
-      <<~HTML
-        <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+      <<~HTML.strip
         <html>
         <head>
-          <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
           <base href="/foo/bar/biz">
         </head>
         <body>
+          <a href="../../../..">Relative Root</a>
           <a href="/home">Home</a>
+          <a href="/👋🏻">About</a>
+          <a href="">Here</a>
           <img srcset="../foo.png 480w, ../bar.png 720w, /biz.jpg">
           <img src="/commons/thumb/9/96/H%C3%A5kon-Wium-Lie-2009-03.jpg/215px-H%C3%A5kon-Wium-Lie-2009-03.jpg">
           <a href="/foo%2epdf">Relative escaped PDF</a>
@@ -73,22 +102,22 @@ RSpec.describe 'Nokogiri::HTML4::Document' do
     end
 
     let(:markup_after) do
-      <<~HTML
-        <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-        <html>
-        <head>
-          <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <<~HTML.strip
+        <html><head>
           <base href="https://jgarber.example/foo/bar/biz">
         </head>
         <body>
+          <a href="https://jgarber.example/">Relative Root</a>
           <a href="https://jgarber.example/home">Home</a>
+          <a href="https://jgarber.example/👋🏻">About</a>
+          <a href="https://jgarber.example/foo/bar/biz">Here</a>
           <img srcset="https://jgarber.example/foo/foo.png 480w, https://jgarber.example/foo/bar.png 720w, https://jgarber.example/biz.jpg">
           <img src="https://jgarber.example/commons/thumb/9/96/H%C3%A5kon-Wium-Lie-2009-03.jpg/215px-H%C3%A5kon-Wium-Lie-2009-03.jpg">
           <a href="https://jgarber.example/foo%2epdf">Relative escaped PDF</a>
           <a href="mailto:email%40jgarber%2eexample">Valid escaped electronic mail</a>
           <a href="mailto:email_at_jgarber%2eexample">Invalid electronic mail</a>
-        </body>
-        </html>
+
+        </body></html>
       HTML
     end
 
