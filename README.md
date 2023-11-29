@@ -5,8 +5,6 @@
 [![Gem](https://img.shields.io/gem/v/nokogiri-html-ext.svg?logo=rubygems&style=for-the-badge)](https://rubygems.org/gems/nokogiri-html-ext)
 [![Downloads](https://img.shields.io/gem/dt/nokogiri-html-ext.svg?logo=rubygems&style=for-the-badge)](https://rubygems.org/gems/nokogiri-html-ext)
 [![Build](https://img.shields.io/github/actions/workflow/status/jgarber623/nokogiri-html-ext/ci.yml?branch=main&logo=github&style=for-the-badge)](https://github.com/jgarber623/nokogiri-html-ext/actions/workflows/ci.yml)
-[![Maintainability](https://img.shields.io/codeclimate/maintainability/jgarber623/nokogiri-html-ext.svg?logo=code-climate&style=for-the-badge)](https://codeclimate.com/github/jgarber623/nokogiri-html-ext)
-[![Coverage](https://img.shields.io/codeclimate/c/jgarber623/nokogiri-html-ext.svg?logo=code-climate&style=for-the-badge)](https://codeclimate.com/github/jgarber623/nokogiri-html-ext/code)
 
 ## Key features
 
