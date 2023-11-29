@@ -14,24 +14,18 @@
 
 ## Getting Started
 
-Before installing and using nokogiri-html-ext, you'll want to have [Ruby](https://www.ruby-lang.org) 2.7 (or newer) installed. It's recommended that you use a Ruby version managment tool like [rbenv](https://github.com/rbenv/rbenv), [chruby](https://github.com/postmodern/chruby), or [rvm](https://github.com/rvm/rvm).
+Before installing and using nokogiri-html-ext, you'll want to have [Ruby](https://www.ruby-lang.org) 2.7 (or newer) installed. Using a Ruby version managment tool like [rbenv](https://github.com/rbenv/rbenv), [chruby](https://github.com/postmodern/chruby), or [rvm](https://github.com/rvm/rvm) is recommended.
 
-nokogiri-html-ext is developed using Ruby 2.7.7 and is additionally tested against Ruby 3.0, 3.1, and 3.2 using [GitHub Actions](https://github.com/jgarber623/nokogiri-html-ext/actions).
+nokogiri-html-ext is developed using Ruby 2.7.8 and is tested against additional Ruby versions using [GitHub Actions](https://github.com/indieweb/nokogiri-html-ext/actions).
 
 ## Installation
 
-If you're using [Bundler](https://bundler.io) to manage gem dependencies, add nokogiri-html-ext to your project's Gemfile:
+Add nokogiri-html-ext to your project's `Gemfile` and run `bundle install`:
 
 ```ruby
-gem 'nokogiri-html-ext'
-```
+source "https://rubygems.org"
 
-…and run `bundle install` in your shell.
-
-To install the gem manually, run the following in your shell:
-
-```sh
-gem install nokogiri-html-ext
+gem "nokogiri-html-ext"
 ```
 
 ## Usage
@@ -138,10 +132,6 @@ doc = Nokogiri::HTML('<html><base href="/foo/bar"></html>', 'https://jgarber.exa
 doc.resolve_relative_url('biz/baz')
 #=> "https://jgarber.example/foo/biz/baz"
 ```
-
-## Contributing
-
-Interested in helping improve nokogiri-html-ext? Awesome! Your help is greatly appreciated. See [CONTRIBUTING.md](https://github.com/jgarber623/nokogiri-html-ext/blob/main/CONTRIBUTING.md) for details.
 
 ## Acknowledgments
 
