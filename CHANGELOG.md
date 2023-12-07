@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.4.1 / 2023-12-07
+
+- Add publish workflow (039abd0)
+- Use `filter_map` instead of `compact` and `map` (ab574c9)
+- Add ignored revs file (3e24d9f)
+- RuboCop: address Style/StringLiterals warnings (a04b4d3)
+- Update to newest rubocop-configs format (0ed51ce)
+- Update RSpec configuration (#8) (4968bee)
+- Update development Ruby version (#7) (0e4613a)
+- Refactor CI workflow (#6) (5259b68)
+- Remove CodeClimate (#5) (284fce7)
+
 ## 0.4.0 / 2023-01-20
 
 - Improve (hopefully) handling of non-ASCII input (6d1fc4d)
