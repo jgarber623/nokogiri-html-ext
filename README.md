@@ -16,7 +16,7 @@
 
 Before installing and using nokogiri-html-ext, you'll want to have [Ruby](https://www.ruby-lang.org) 2.7 (or newer) installed. Using a Ruby version managment tool like [rbenv](https://github.com/rbenv/rbenv), [chruby](https://github.com/postmodern/chruby), or [rvm](https://github.com/rvm/rvm) is recommended.
 
-nokogiri-html-ext is developed using Ruby 2.7.8 and is tested against additional Ruby versions using [GitHub Actions](https://github.com/indieweb/nokogiri-html-ext/actions).
+nokogiri-html-ext is developed using Ruby 2.7.8 and is tested against additional Ruby versions using [GitHub Actions](https://github.com/jgarber623/nokogiri-html-ext/actions).
 
 ## Installation
 
