@@ -35,19 +35,19 @@ gem "nokogiri-html-ext"
 nokogiri-html-ext provides two helper methods for getting and setting a document's `<base>` element's `href` attribute. The first, `base_href`, retrieves the element's `href` attribute value if it exists.
 
 ```ruby
-require 'nokogiri/html-ext'
+require "nokogiri/html-ext"
 
-doc = Nokogiri::HTML('<html><body>Hello, world!</body></html>')
-
-doc.base_href
-#=> nil
-
-doc = Nokogiri::HTML('<html><head><base target="_top"><body>Hello, world!</body></html>')
+doc = Nokogiri::HTML(%(<html><body>Hello, world!</body></html>))
 
 doc.base_href
 #=> nil
 
-doc = Nokogiri::HTML('<html><head><base href="/foo"><body>Hello, world!</body></html>')
+doc = Nokogiri::HTML(%(<html><head><base target="_top"><body>Hello, world!</body></html>))
+
+doc.base_href
+#=> nil
+
+doc = Nokogiri::HTML(%(<html><head><base href="/foo"><body>Hello, world!</body></html>))
 
 doc.base_href
 #=> "/foo"
@@ -56,22 +56,22 @@ doc.base_href
 The `base_href=` method allows you to manipulate the document's `<base>` element.
 
 ```ruby
-require 'nokogiri/html-ext'
+require "nokogiri/html-ext"
 
-doc = Nokogiri::HTML('<html><body>Hello, world!</body></html>')
+doc = Nokogiri::HTML(%(<html><body>Hello, world!</body></html>))
 
-doc.base_href = '/foo'
+doc.base_href = "/foo"
 #=> "/foo"
 
-doc.at_css('base').to_s
+doc.at_css("base").to_s
 #=> "<base href=\"/foo\">"
 
-doc = Nokogiri::HTML('<html><head><base href="/foo"><body>Hello, world!</body></html>')
+doc = Nokogiri::HTML(%(<html><head><base href="/foo"><body>Hello, world!</body></html>))
 
-doc.base_href = '/bar'
+doc.base_href = "/bar"
 #=> "/bar"
 
-doc.at_css('base').to_s
+doc.at_css("base").to_s
 #=> "<base href=\"/bar\">"
 ```
 
@@ -88,7 +88,7 @@ URL resolution uses Ruby's built-in URL parsing and normalizing capabilities. Ab
 An abbreviated example:
 
 ```ruby
-require 'nokogiri/html-ext'
+require "nokogiri/html-ext"
 
 markup = <<-HTML
   <html>
@@ -99,7 +99,7 @@ markup = <<-HTML
   </html>
 HTML
 
-doc = Nokogiri::HTML(markup, 'https://jgarber.example')
+doc = Nokogiri::HTML(markup, "https://jgarber.example")
 
 doc.url
 #=> "https://jgarber.example"
@@ -107,18 +107,18 @@ doc.url
 doc.base_href
 #=> nil
 
-doc.base_href = '/foo/bar/biz'
+doc.base_href = "/foo/bar/biz"
 #=> "/foo/bar/biz"
 
 doc.resolve_relative_urls!
 
-doc.at_css('base')['href']
+doc.at_css("base")["href"]
 #=> "https://jgarber.example/foo/bar/biz"
 
-doc.at_css('a')['href']
+doc.at_css("a")["href"]
 #=> "https://jgarber.example/home"
 
-doc.at_css('img').to_s
+doc.at_css("img").to_s
 #=> "<img src=\"https://jgarber.example/foo.png\" srcset=\"https://jgarber.example/foo/bar.png 720w\">"
 ```
 
@@ -127,9 +127,9 @@ doc.at_css('img').to_s
 You may also resolve an arbitrary `String` representing a relative URL against the document's URL (or `<base>` element's `href` attribute value):
 
 ```ruby
-doc = Nokogiri::HTML('<html><base href="/foo/bar"></html>', 'https://jgarber.example')
+doc = Nokogiri::HTML(%(<html><base href="/foo/bar"></html>), "https://jgarber.example")
 
-doc.resolve_relative_url('biz/baz')
+doc.resolve_relative_url("biz/baz")
 #=> "https://jgarber.example/foo/biz/baz"
 ```
 

@@ -1,85 +1,85 @@
 # frozen_string_literal: true
 
-RSpec.describe 'Nokogiri::HTML4::Document' do
+RSpec.describe "Nokogiri::HTML4::Document" do
   subject(:doc) { Nokogiri::HTML5::Document.parse(markup, url) }
 
-  let(:url) { 'https://jgarber.example' }
+  let(:url) { "https://jgarber.example" }
 
-  describe '#base_href' do
-    context 'when no base element' do
-      let(:markup) { '<html><body>hello, world</body></html>' }
+  describe "#base_href" do
+    context "when no base element" do
+      let(:markup) { "<html><body>hello, world</body></html>" }
 
       its(:base_href) { is_expected.to be_nil }
     end
 
-    context 'when base element' do
+    context "when base element" do
       let(:markup) { '<html><head><base href="https://base.example"></head></html>' }
 
-      its(:base_href) { is_expected.to eq('https://base.example') }
+      its(:base_href) { is_expected.to eq("https://base.example") }
     end
   end
 
-  describe '#base_href=' do
-    context 'when no base element' do
-      let(:markup) { '<html><body>hello, world</body></html>' }
+  describe "#base_href=" do
+    context "when no base element" do
+      let(:markup) { "<html><body>hello, world</body></html>" }
 
       before do
-        doc.base_href = 'https://base.example'
+        doc.base_href = "https://base.example"
       end
 
       its(:to_s) { is_expected.to match(%r{<base href="https://base.example">}) }
     end
 
-    context 'when base element with no HREF attribute' do
+    context "when base element with no HREF attribute" do
       let(:markup) { '<html><head><base target="_top"></head><body>hello, world</body></html>' }
 
       before do
-        doc.base_href = 'https://base.example'
+        doc.base_href = "https://base.example"
       end
 
       its(:to_s) { is_expected.to match(%r{<base target="_top" href="https://base.example">}) }
     end
 
-    context 'when base element with HREF attribute' do
+    context "when base element with HREF attribute" do
       let(:markup) { '<html><head><base href="https://example.com"></head><body>hello, world</body></html>' }
 
       before do
-        doc.base_href = 'https://superbase.example'
+        doc.base_href = "https://superbase.example"
       end
 
       its(:to_s) { is_expected.to match(%r{<base href="https://superbase.example">}) }
     end
   end
 
-  describe '#resolve_relative_url' do
+  describe "#resolve_relative_url" do
     let(:markup) { '<html><base href="/✨"></html>' }
 
-    context 'when url is invalid' do
-      it 'returns url' do
-        expect(doc.resolve_relative_url('https:')).to eq('https:')
+    context "when url is invalid" do
+      it "returns url" do
+        expect(doc.resolve_relative_url("https:")).to eq("https:")
       end
     end
 
-    context 'when url is absolute' do
-      it 'returns url' do
-        expect(doc.resolve_relative_url('https://aaronpk.example/home')).to eq('https://aaronpk.example/home')
+    context "when url is absolute" do
+      it "returns url" do
+        expect(doc.resolve_relative_url("https://aaronpk.example/home")).to eq("https://aaronpk.example/home")
       end
     end
 
-    context 'when url is relative' do
-      it 'resolves url' do
-        expect(doc.resolve_relative_url('../../../home')).to eq('https://jgarber.example/home')
+    context "when url is relative" do
+      it "resolves url" do
+        expect(doc.resolve_relative_url("../../../home")).to eq("https://jgarber.example/home")
       end
     end
 
-    context 'when path includes non-ASCII characters' do
-      it 'resolves url' do
-        expect(doc.resolve_relative_url('/👋🏻')).to eq('https://jgarber.example/👋🏻')
+    context "when path includes non-ASCII characters" do
+      it "resolves url" do
+        expect(doc.resolve_relative_url("/👋🏻")).to eq("https://jgarber.example/👋🏻")
       end
     end
   end
 
-  describe '#resolve_relative_urls!' do
+  describe "#resolve_relative_urls!" do
     let(:markup) do
       <<~HTML.strip
         <html>
