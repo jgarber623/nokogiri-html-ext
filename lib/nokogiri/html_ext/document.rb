@@ -75,7 +75,7 @@ module Nokogiri
         # ASCII) and subsequently unescaping.
         uri_parser.unescape(
           uri_parser
-            .join(*[doc_url_str, base_href, url_str].compact.map { |u| uri_parser.escape(u) })
+            .join(*[doc_url_str, base_href, url_str].filter_map { |u| uri_parser.escape(u) unless u.nil? })
             .normalize
             .to_s
         )
