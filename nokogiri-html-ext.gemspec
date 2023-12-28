@@ -16,8 +16,8 @@ Gem::Specification.new do |spec|
   spec.license       = "MIT"
 
   spec.files         = Dir["lib/**/*"].reject { |f| File.directory?(f) }
-  spec.files        += %w[LICENSE CHANGELOG.md README.md]
-  spec.files        += %w[nokogiri-html-ext.gemspec]
+  spec.files        += ["LICENSE", "CHANGELOG.md", "README.md"]
+  spec.files        += ["nokogiri-html-ext.gemspec"]
 
   spec.require_paths = ["lib"]
 
