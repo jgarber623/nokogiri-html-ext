@@ -10,8 +10,8 @@ module Nokogiri
       # @see https://html.spec.whatwg.org/#srcset-attributes
       # @see https://html.spec.whatwg.org/#attributes-3
       IMAGE_CANDIDATE_STRINGS_ATTRIBUTES_MAP = {
-        "imagesrcset" => %w[link],
-        "srcset"      => %w[img source]
+        "imagesrcset" => ["link"],
+        "srcset"      => ["img", "source"]
       }.freeze
 
       private_constant :IMAGE_CANDIDATE_STRINGS_ATTRIBUTES_MAP
@@ -20,14 +20,14 @@ module Nokogiri
       #
       # @see https://html.spec.whatwg.org/#attributes-3
       URL_ATTRIBUTES_MAP = {
-        "action"     => %w[form],
-        "cite"       => %w[blockquote del ins q],
-        "data"       => %w[object],
-        "formaction" => %w[button input],
-        "href"       => %w[a area base link],
-        "ping"       => %w[a area],
-        "poster"     => %w[video],
-        "src"        => %w[audio embed iframe img input script source track video]
+        "action"     => ["form"],
+        "cite"       => ["blockquote", "del", "ins", "q"],
+        "data"       => ["object"],
+        "formaction" => ["button", "input"],
+        "href"       => ["a", "area", "base", "link"],
+        "ping"       => ["a", "area"],
+        "poster"     => ["video"],
+        "src"        => ["audio", "embed", "iframe", "img", "input", "script", "source", "track", "video"]
       }.freeze
 
       private_constant :URL_ATTRIBUTES_MAP
