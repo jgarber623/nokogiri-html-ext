@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.2 / 2023-12-30
+
+- Add `source_code_uri` to metadata (fd29f7c)
+
 ## 0.4.1 / 2023-12-07
 
 - Add publish workflow (039abd0)
